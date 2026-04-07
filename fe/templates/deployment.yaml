@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fe
+  labels:
+    pro: roboshop
+    component: fe
+    tier: fe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pro: roboshop
+      component: fe
+      tier: fe
+  template:
+    metadata:
+      labels:
+        pro: roboshop
+        component: fe
+        tier: fe
+    spec:
+      containers:
+      - name: nginx
+        image: "{{ .Values.deployment.imagerepo }}:{{ .Values.deployment.version }}"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80

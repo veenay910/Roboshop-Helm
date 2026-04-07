@@ -1,0 +1,5 @@
+deployment:
+  imagerepo: veenay910/fe
+  version: v1
+service: 
+  type: LoadBalancer
