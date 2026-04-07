@@ -1,0 +1,5 @@
+deployment:
+  imagerepo: veenay910/catalogue
+  version: v1
+service: 
+  type: ClusterIP

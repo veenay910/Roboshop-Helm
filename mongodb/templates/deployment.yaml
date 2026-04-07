@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb
+  namespace: roboshop-dev
+  labels:
+    pro: roboshop
+    component: mongodb
+    tier: db
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pro: roboshop
+      component: mongodb
+      tier: db
+
+  template:
+    metadata:
+      labels:
+        pro: roboshop
+        component: mongodb
+        tier: db
+
+    spec:
+      containers:
+        - name: mongodb
+          image: "{{ .Values.deployment.imagerepo }}":"{{ .Values.deployment.version }}"
+          ports:
+            - containerPort: 27017
+
+          # ✅ Liveness Probe (restart if unhealthy)
+          livenessProbe:
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          # ✅ Readiness Probe (traffic only when ready)
+          readinessProbe:
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+
